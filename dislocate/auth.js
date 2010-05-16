@@ -15,26 +15,25 @@
  * limitations under the License.
  */
 
-var sys = require("sys");
-var log = require("./log");
-var config = require("./config");
-var ps = require('./pubsub');
-var services = require('./services');
-var auth = require('./auth');
 
-exports.run = function() {
-  var rv = config.init();
+var crypto = require('crypto');
+var config = require('./config');
 
-  if (!rv) {
-    return;
+exports.validate = function(input, hmac)
+{
+  var c = exports.generate(input)
+  if (hmac == c) {
+    return true;
   }
+  return false;
+}
 
-  ps.sub(ps.CONFIG_DONE, function() {
-    services.register('test.sshd', {'type': 'tcp', 'address': '127.0.0.1', 'port': 22});
-    services.register('test.webservers.mine', {'type': 'tcp', 'address': '127.0.0.1', 'port': 80});
-    services.register('test.webservers.mine', {'type': 'tcp', 'address': '127.0.0.1', 'port': 8080});
-    svc = services.find('test.sshd');
-    log.debug(svc[0].type, svc[0].address, svc[0].port);
-    log.debug(auth.generate('test'));
-  });
+exports.generate = function(input)
+{
+  /* TODO: better handle inputs of objects / non-string types in a consistent way */
+  var c = config.get();
+  var h = crypto.createHmac(c.authentication_format.algorithm, c.secret);
+  h.update(input);
+  return h.digest(c.authentication_format.encoding);
 };
+

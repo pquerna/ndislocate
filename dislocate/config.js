@@ -24,7 +24,11 @@ var config = {
   'user': 'nobody',
   'port': 49700,
   'address': '0.0.0.0',
-  'secret': null
+  'secret': null,
+  'authentication_format': {
+    'algorithm': 'sha512',
+    'encoding': 'base64'
+  }
 };
 
 function drop_uid(uid)
