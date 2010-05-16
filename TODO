@@ -5,4 +5,9 @@
 - services heartbeating
 - services checkup (see if tcp port is alive, modules for this)
 - on disk services json file (atomic replacement)
+- on disk state storage for internal use
 - test cases / testing framework
+- design network protocol
+	- http (?)
+	- sha512 HMAC on data
+	- think about SSL crap / hate CAs / etc
