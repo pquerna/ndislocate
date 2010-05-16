@@ -36,5 +36,6 @@ exports.run = function() {
     svc = services.find('test.sshd');
     log.debug(svc[0].type, svc[0].address, svc[0].port);
     log.debug(auth.generate('test'));
+    log.debug(auth.validate('test', auth.generate('test')));
   });
 };

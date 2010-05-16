@@ -21,10 +21,22 @@ var config = require('./config');
 
 exports.validate = function(input, hmac)
 {
-  var c = exports.generate(input)
-  if (hmac == c) {
+  var correct = exports.generate(input)
+
+  if (correct.length != hmac.length) {
+    return false;
+  }
+
+  var rv = 0;
+
+  for (var i = 0; i < correct.length; i++) {
+    rv = rv | (correct[i] ^ hmac[i]);
+  }
+
+  if (rv == 0) {
     return true;
   }
+
   return false;
 }
 
