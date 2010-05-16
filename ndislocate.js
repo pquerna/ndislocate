@@ -15,6 +15,6 @@
  * limitations under the License.
  */
 
-var dislocate = require('./dislocate/entry')
+var dislocate = require('./dislocate/entry');
 
 dislocate.run();

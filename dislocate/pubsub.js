@@ -15,20 +15,28 @@
  * limitations under the License.
  */
 
-var sys = require("sys");
-var log = require("./log");
-var config = require("./config");
-var ps = require('./pubsub');
+var log = require('./log');
 
-exports.run = function() {
-  var rv = config.init();
+var pending = {};
 
-  if (!rv) {
-    return;
-  }
+exports.CONFIG_DONE = "dislocate.config.done";
 
-  ps.sub(ps.CONFIG_DONE, function() {
-    log.info("configuration done.");
-    log.debug("secret:", config.get().secret);
-  });
+exports.pub = function(path, data)
+{
+	//log.debug("pub:", path, data);
+	if (pending[path] !== undefined) {
+		var arr = pending[path];
+		for (var i = 0; i != arr.length; i++) {
+			arr[i](data);
+		}
+	}
+};
+
+exports.sub = function(path, cb)
+{
+	if (pending[path] === undefined) {
+		pending[path] = [];
+	}
+	pending[path].push(cb);
+	//log.debug("sub:", path, cb);
 };

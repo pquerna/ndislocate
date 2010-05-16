@@ -18,19 +18,40 @@
 var sys = require("sys");
 
 /**
- * TODO: loglevels
+ * TODO: loglevels (only print info, etc)
  * TODO: format strings
  */
 
+var loglevels = {
+	'nothing': 0,
+	'crit': 1,
+	'err': 2,
+	'warn': 3,
+	'info': 4,
+	'debug': 5
+};
+
+var loglevel_strs = []
+var loglevel = loglevels.debug;
+
 function logit (level, inargs) {
-  var args = [].splice.call(inargs, 0);
-  sys.log(level+ ": "+ args.join(" "))
+	if (level >= loglevel) {
+	  var args = [].splice.call(inargs, 0);
+	  sys.log(loglevel_strs[level]+ ": "+ args.join(" "));
+	}
 }
 
-exports.err = function() {
-  return logit("err", arguments);
-}
+exports.set_loglevel = function(level) {
+	loglevel = level;
+};
 
-exports.warn = function() {
-  return logit("warn", arguments);
-}
+(function() {
+  for (var attrname in loglevels) {
+		if (loglevels.hasOwnProperty(attrname)) {
+      loglevel_strs[loglevels[attrname]] = attrname;
+			exports[attrname] = function () {
+			  return logit(loglevels[attrname], arguments);
+			};
+		}
+  }
+})();
