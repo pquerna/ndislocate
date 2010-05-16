@@ -26,7 +26,7 @@ var config = {
   'address': '0.0.0.0',
   'secret': null,
   'authentication_format': {
-    'algorithm': 'sha512',
+    'algorithm': 'sha256',
     'encoding': 'base64'
   }
 };
