@@ -36,4 +36,3 @@ exports.generate = function(input)
   h.update(input);
   return h.digest(c.authentication_format.encoding);
 };
-

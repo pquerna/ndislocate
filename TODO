@@ -11,3 +11,8 @@
 	- http (?)
 	- sha512 HMAC on data
 	- think about SSL crap / hate CAs / etc
+- think about gossip protocol more
+	- do we need it initially?
+	- network partitions
+	- partial tree updates
+		- how do you update efficiently without transmitting the entire tree. (tree diffs between timestamps?) (there have to be some academic papers about this part)
