@@ -1,0 +1,8 @@
+- services index
+- http server
+ - basic list of available services
+ - service registration
+- services heartbeating
+- services checkup (see if tcp port is alive, modules for this)
+- on disk services json file (atomic replacement)
+- test cases / testing framework

@@ -18,7 +18,6 @@
 var sys = require("sys");
 
 /**
- * TODO: loglevels (only print info, etc)
  * TODO: format strings
  */
 

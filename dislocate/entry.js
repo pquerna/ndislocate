@@ -19,6 +19,7 @@ var sys = require("sys");
 var log = require("./log");
 var config = require("./config");
 var ps = require('./pubsub');
+var services = require('./services');
 
 exports.run = function() {
   var rv = config.init();
@@ -28,7 +29,10 @@ exports.run = function() {
   }
 
   ps.sub(ps.CONFIG_DONE, function() {
-    log.info("configuration done.");
-    log.debug("secret:", config.get().secret);
+    services.register('test.sshd', {'type': 'tcp', 'address': '127.0.0.1', 'port': 22});
+    services.register('test.webservers.mine', {'type': 'tcp', 'address': '127.0.0.1', 'port': 80});
+    services.register('test.webservers.mine', {'type': 'tcp', 'address': '127.0.0.1', 'port': 8080});
+    svc = services.find('test.sshd');
+    log.debug(svc[0].type, svc[0].address, svc[0].port);
   });
 };
