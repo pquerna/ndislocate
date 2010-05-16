@@ -41,21 +41,16 @@ function drop_uid(uid)
 }
 
 function parse_config(path) {
-  /**
-  * TODO: re-convert this to non-sync version, but it appears
-  * that readFile async returns the data in a object that is
-  * not parsable by JSON.parse()
-  */
-  setTimeout(function() {
-    var data = fs.readFileSync('test.json',encoding='utf8')
-    parsed = JSON.parse(data);
-    for (var attrname in parsed) {
-      if (parsed.hasOwnProperty(attrname)) {
-        config[attrname] = parsed[attrname];
+  fs.readFile('test.json', function(err, data) {
+      parsed = JSON.parse(data.toString());
+      log.err(parsed);
+      for (var attrname in parsed) {
+        if (parsed.hasOwnProperty(attrname)) {
+          config[attrname] = parsed[attrname];
+        }
       }
-    }
-    ps.pub(ps.CONFIG_DONE);
-  });
+      ps.pub(ps.CONFIG_DONE);
+    });
 }
 
 exports.init = function() {
