@@ -21,7 +21,7 @@ var config = require('./config');
 
 exports.validate = function(input, hmac)
 {
-  var correct = exports.generate(input)
+  var correct = exports.generate(input);
 
   if (correct.length != hmac.length) {
     return false;
@@ -33,12 +33,12 @@ exports.validate = function(input, hmac)
     rv = rv | (correct[i] ^ hmac[i]);
   }
 
-  if (rv == 0) {
+  if (rv === 0) {
     return true;
   }
 
   return false;
-}
+};
 
 exports.generate = function(input)
 {

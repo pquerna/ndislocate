@@ -50,12 +50,12 @@ function preptree(name)
   var parts = name.split('.');
   parts.forEach(function(p) {
     if (services[p] === undefined) {
-      services[p] = {}
+      services[p] = {};
     }
     last = services[p];
   });
-  if (last['services'] === undefined) {
-    last.services = []
+  if (last.services === undefined) {
+    last.services = [];
   }
   return last;
 }
