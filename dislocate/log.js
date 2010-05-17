@@ -35,8 +35,7 @@ var loglevel = loglevels.debug;
 
 function logit (level, inargs) {
 	if (level >= loglevel) {
-	  var args = [].splice.call(inargs, 0);
-	  sys.log(loglevel_strs[level]+ ": "+ args.join(" "));
+	  sys.log(loglevel_strs[level]+ ": "+ Array.apply({}, inargs).join(" "));
 	}
 }
 
