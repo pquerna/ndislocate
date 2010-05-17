@@ -265,8 +265,8 @@ exports.getServer = function getServer(logger) {
     }
   }
   
-  function end() {
-    return server.end();
+  function close() {
+    return server.close();
   }
   
   // Return a handle to the public facing functions from this closure as the
@@ -279,7 +279,7 @@ exports.getServer = function getServer(logger) {
     resource: resource,
     resourceController: resourceController,
     listen: listen,
-    end: end,
+    close: close,
   };
 }
 
