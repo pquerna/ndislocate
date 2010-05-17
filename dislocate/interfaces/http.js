@@ -15,28 +15,35 @@
  * limitations under the License.
  */
 
-var sys = require("sys");
-var log = require("./log");
-var config = require("./config");
-var ps = require('./pubsub');
-var services = require('./services');
-var auth = require('./auth');
-var interfaces = require('./interfaces');
+var log = require('./../log');
+var config = require('./../config')
+var nr = require('./../../extern/node-router');
+var server = null;
 
-exports.run = function() {
-  var rv = config.init();
+function handle_request(request, response)
+{
+  /* TODO: url mapping */
+  response.writeHead(200, {'Content-Type': 'text/plain'});
+  response.end('Hello World\n');
+}
 
-  if (!rv) {
-    return;
-  }
+exports.start = function()
+{
+  var c = config.get()
+  server = nr.getServer()
 
-  ps.sub(ps.CONFIG_DONE, function() {
-    services.register('test.sshd', {'type': 'tcp', 'address': '127.0.0.1', 'port': 22});
-    services.register('test.webservers.mine', {'type': 'tcp', 'address': '127.0.0.1', 'port': 80});
-    services.register('test.webservers.mine', {'type': 'tcp', 'address': '127.0.0.1', 'port': 8080});
-    process.addListener('SIGINT', function () {
-      interfaces.stop();
-    });
-    interfaces.start();
+  server.get("/", function (req, res, match) {
+    return "Hello World";
   });
+
+  log.info("Starting HTTP server on", c.port);
+  server.listen(c.port);
+};
+
+exports.stop = function()
+{
+  if (server !== null) {
+    server.close();
+    server = null;
+  }
 };

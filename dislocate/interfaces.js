@@ -15,28 +15,27 @@
  * limitations under the License.
  */
 
-var sys = require("sys");
-var log = require("./log");
-var config = require("./config");
-var ps = require('./pubsub');
-var services = require('./services');
-var auth = require('./auth');
-var interfaces = require('./interfaces');
+var interfaces = {
+  'http': require('./interfaces/http')
+};
+var running = [];
 
-exports.run = function() {
-  var rv = config.init();
-
-  if (!rv) {
-    return;
+exports.start = function()
+{
+  for (var key in interfaces) {
+		if (interfaces.hasOwnProperty(key)) {
+		  mod = interfaces[key];
+		  mod.start();
+		  running.push(mod);
+		}
   }
-
-  ps.sub(ps.CONFIG_DONE, function() {
-    services.register('test.sshd', {'type': 'tcp', 'address': '127.0.0.1', 'port': 22});
-    services.register('test.webservers.mine', {'type': 'tcp', 'address': '127.0.0.1', 'port': 80});
-    services.register('test.webservers.mine', {'type': 'tcp', 'address': '127.0.0.1', 'port': 8080});
-    process.addListener('SIGINT', function () {
-      interfaces.stop();
-    });
-    interfaces.start();
+  
+};
+ 
+exports.stop = function()
+{
+  running.forEach(function(entry) {
+    entry.stop();
   });
+  running = [];
 };

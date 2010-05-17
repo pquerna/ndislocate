@@ -1,0 +1,6 @@
+This directory contains Third Party code and libraries used by ndislocate.
+
+node-router 304c0a56e819 (April 30, 2010)
+  http://github.com/creationix/node-router
+  License: MIT
+  Library used to route URLs to handlers in HTTP server.
