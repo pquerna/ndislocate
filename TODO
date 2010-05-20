@@ -1,10 +1,18 @@
 - http server
- - service registration
-- services heartbeating
-- services checkup (see if tcp port is alive, modules for this)
+  - service registration
+
+- services heartbeating/checkup (see if tcp port is alive, modules for this)
+  - static / ttl
+  - tcp alive
+  - custom every X seconds
+    - thrift alive
+    - http & body match
+
 - on disk services json file (atomic replacement)
 - on disk state storage for internal use
+
 - test cases / testing framework
+
 - design network protocol
 	- http (?)
 	- sha512 HMAC on data
@@ -14,3 +22,20 @@
 	- network partitions
 	- partial tree updates
 		- how do you update efficiently without transmitting the entire tree. (tree diffs between timestamps?) (there have to be some academic papers about this part)
+
+- documentation!
+
+- services clients:
+ - databases (mysql, pgsql)
+ - nosql (cassandra, redis, mongo)
+ - http & https
+ - ajp (?)
+ - amqp
+
+- client clients:
+  - node.js
+  - python
+    - Djnago 1.2 example for database routing.
+    - Cassandra Clusters
+  - php
+  - Java (?) (ck/esper needs this)
