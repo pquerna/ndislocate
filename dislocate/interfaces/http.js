@@ -18,13 +18,21 @@
 var log = require('./../log');
 var config = require('./../config')
 var nr = require('./../../extern/node-router');
+var templates = require("./../templates");
 var server = null;
 
-function handle_request(request, response)
+function renderResponse(res, name, context)
 {
-  /* TODO: url mapping */
-  response.writeHead(200, {'Content-Type': 'text/plain'});
-  response.end('Hello World\n');
+  templates.render(name, context,
+    function (err, result) {
+      if (err) {
+        res.writeHead(500, {'Content-Type': 'text/plain; charset=utf-8'});
+        res.end("Exception rendering template "+ name +": "+ err);
+        return;
+      }
+      res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
+      res.end(result);
+    });
 }
 
 exports.start = function()
@@ -33,7 +41,7 @@ exports.start = function()
   server = nr.getServer()
 
   server.get("/", function (req, res, match) {
-    return "Hello World";
+    return renderResponse(res, 'index', {});
   });
 
   log.info("Starting HTTP server on", c.port);

@@ -19,6 +19,7 @@ var fs = require('fs');
 var sys = require('sys');
 var log = require('./log');
 var ps = require('./pubsub');
+var utils = require('./utils');
 
 var config = {
   'user': 'nobody',
@@ -48,11 +49,7 @@ function parse_config(path) {
   fs.readFile('test.json', function(err, data) {
       parsed = JSON.parse(data.toString());
       log.err(parsed);
-      for (var attrname in parsed) {
-        if (parsed.hasOwnProperty(attrname)) {
-          config[attrname] = parsed[attrname];
-        }
-      }
+      config = utils.merge(parsed, config);
       ps.pub(ps.CONFIG_DONE);
     });
 }
