@@ -4,3 +4,9 @@ node-router 304c0a56e819 (April 30, 2010)
   http://github.com/creationix/node-router
   License: MIT
   Library used to route URLs to handlers in HTTP server.
+
+json-template 761f60ca03e (December 5, 2009)
+  http://github.com/andychu/json-template/
+  License: Apache License 2.0
+  Library used to render templates with variables.
+  
