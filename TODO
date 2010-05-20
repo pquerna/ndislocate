@@ -1,5 +1,4 @@
 - http server
- - basic list of available services
  - service registration
 - services heartbeating
 - services checkup (see if tcp port is alive, modules for this)
