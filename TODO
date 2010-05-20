@@ -1,4 +1,3 @@
-- services index
 - http server
  - basic list of available services
  - service registration
