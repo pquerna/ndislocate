@@ -15,10 +15,11 @@
  * limitations under the License.
  */
 
-var log = require('./../log');
+var log = require('../log');
 var config = require('./../config')
 var nr = require('./../../extern/node-router');
 var templates = require("./../templates");
+var generic = require('./generic');
 var server = null;
 
 function renderResponse(res, name, context)
@@ -49,6 +50,11 @@ exports.start = function()
 
   server.get("/", function (req, res, match) {
     return renderResponse(res, 'index', {});
+  });
+
+  server.get("/d/services", function (req, res, match) {
+    var services = generic.list();
+    return renderJSON(res, services);
   });
 
   log.info("Starting HTTP server on", c.port);

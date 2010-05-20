@@ -16,6 +16,7 @@
  */
 
 var log = require('./log');
+var utils = require('./utils');
 
 /**
  * Hierachical list of objects.
@@ -72,3 +73,9 @@ exports.find = function(name) {
   var last = preptree(name);
   return last.services;
 };
+
+exports.all = function()
+{
+  var r = {};
+  return utils.merge(services, r)
+}
