@@ -35,6 +35,13 @@ function renderResponse(res, name, context)
     });
 }
 
+function renderJSON(res, context)
+{
+  data = JSON.stringify(context);
+  res.writeHead(200, {'Content-Type': 'application/json; charset=utf-8'});
+  res.end(data);
+}
+
 exports.start = function()
 {
   var c = config.get()
