@@ -16,9 +16,9 @@
  */
 
 var log = require('../log');
-var config = require('./../config')
-var nr = require('./../../extern/node-router');
-var templates = require("./../templates");
+var config = require('../config')
+var nr = require('../../extern/node-router');
+var templates = require("../templates");
 var generic = require('./generic');
 var server = null;
 
