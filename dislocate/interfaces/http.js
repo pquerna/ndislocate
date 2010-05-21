@@ -20,6 +20,7 @@ var config = require('../config')
 var nr = require('../../extern/node-router');
 var templates = require("../templates");
 var generic = require('./generic');
+var sys = require('sys')
 var server = null;
 
 function renderResponse(res, name, context)
@@ -56,6 +57,12 @@ exports.start = function()
     var services = generic.list();
     return renderJSON(res, services);
   });
+
+  server.put("/d/service", function (req, res, body) {
+    log.info(sys.inspect(body))
+    res.writeHead(200, {'Content-Type': 'text/plain; charset=utf-8'});
+    res.end("done!");
+  }, "json");
 
   log.info("Starting HTTP server on", c.port);
   server.listen(c.port);
