@@ -218,7 +218,7 @@ exports.getServer = function getServer(logger) {
             match.unshift(req);
             if (route.format !== undefined) {
               var body = "";
-              req.setBodyEncoding('utf8');
+              req.setEncoding('utf8');
               req.addListener('data', function (chunk) {
                 body += chunk;
               });
