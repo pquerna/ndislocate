@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 /*
  * Licensed to Cloudkick, Inc ('Cloudkick') under one or more
  * contributor license agreements.  See the NOTICE file distributed with
