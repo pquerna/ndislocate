@@ -61,6 +61,26 @@ function preptree(name)
   return last;
 }
 
+var checkup_interval = 10000;
+var runchecks_timer = null;
+
+function runchecks()
+{
+
+  runchecks_timer = setTimeout(runchecks, checkup_interval);
+}
+
+exports.start = function()
+{
+  runchecks_timer = setTimeout(runchecks, checkup_interval);
+}
+
+exports.stop = function()
+{
+  clearTimeout(runchecks_timer);
+  delete runchecks_timer;
+}
+
 exports.register = function(name, metadata) {
   var last = preptree(name);
 

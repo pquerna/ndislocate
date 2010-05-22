@@ -31,12 +31,15 @@ exports.run = function() {
   }
 
   ps.sub(ps.CONFIG_DONE, function() {
-    services.register('test.sshd', {'type': 'tcp', 'address': '127.0.0.1', 'port': 22});
-    services.register('test.webservers.mine', {'type': 'tcp', 'address': '127.0.0.1', 'port': 80});
-    services.register('test.webservers.mine', {'type': 'tcp', 'address': '127.0.0.1', 'port': 8080});
     process.addListener('SIGINT', function () {
       interfaces.stop();
+      services.stop();
     });
+    services.start();
     interfaces.start();
+
+    services.register('test.sshd', {'type': 'static', 'address': '127.0.0.1', 'port': 22});
+    services.register('test.webservers.mine', {'type': 'http', 'address': '127.0.0.1', 'port': 80});
+    services.register('test.webservers.mine', {'type': 'http', 'address': '127.0.0.1', 'port': 8080});
   });
 };
