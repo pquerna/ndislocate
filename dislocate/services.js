@@ -17,6 +17,7 @@
 
 var log = require('./log');
 var utils = require('./utils');
+var ps = require('./pubsub');
 
 /**
  * Hierachical list of objects.
@@ -72,6 +73,9 @@ function runchecks()
 exports.start = function()
 {
   runchecks_timer = setTimeout(runchecks, checkup_interval);
+  ps.sub(ps.STATE_STOP, function() {
+    exports.stop();
+  })
 }
 
 exports.stop = function()
