@@ -20,23 +20,43 @@ var log = require('./log');
 var pending = {};
 
 exports.CONFIG_DONE = "dislocate.config.done";
+exports.STATE_START ='dislocate.state.start';
+exports.STATE_STOP ='dislocate.state.stop';
+exports.STATE_EXIT ='dislocate.state.exit';
 
 exports.pub = function(path, data)
 {
+  if (path === undefined) {
+    throw "pubsub: path must be defined, did you forget to add a new event type?";
+  }
+
 	//log.debug("pub:", path, data);
 	if (pending[path] !== undefined) {
 		var arr = pending[path];
-		for (var i = 0; i != arr.length; i++) {
-			arr[i](data);
-		}
+		pending[path] = arr.filter(function(i) {
+			i.cb(data);
+		  if (i.once == true) {
+		    return false;
+		  }
+		  return true;
+		});
 	}
 };
 
-exports.sub = function(path, cb)
+exports.sub = function(path, cb, once)
 {
+  if (path === undefined) {
+    throw "pubsub: path must be defined, did you forget to add a new event type?";
+  }
+
+  if (once === undefined) {
+    once = false;
+  }
+
 	if (pending[path] === undefined) {
 		pending[path] = [];
 	}
-	pending[path].push(cb);
+
 	//log.debug("sub:", path, cb);
+	pending[path].push({'cb': cb, 'once': once});
 };
