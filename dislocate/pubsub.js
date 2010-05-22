@@ -16,13 +16,30 @@
  */
 
 var log = require('./log');
-
 var pending = {};
+/*
+
+ TODO: consider rewriting pubsub to use EventEmitter internally, I'm not sure
+ it can do 'single' event subs in an easy way though, nor i'm not sure
+ about the performance difference.
+
+var sys = require('sys');
+var events = require('events').EventEmitter;
+var emitter = null;
+sys.inherits(PubSubEmitter, events.EventEmitter);
+
+(function(){
+  emitter = new PubSubEmitter();
+})();
+
+*/
 
 exports.CONFIG_DONE = "dislocate.config.done";
 exports.STATE_START ='dislocate.state.start';
 exports.STATE_STOP ='dislocate.state.stop';
 exports.STATE_EXIT ='dislocate.state.exit';
+
+
 
 exports.pub = function(path, data)
 {
