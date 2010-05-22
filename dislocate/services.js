@@ -66,7 +66,6 @@ var runchecks_timer = null;
 
 function runchecks()
 {
-
   runchecks_timer = setTimeout(runchecks, checkup_interval);
 }
 

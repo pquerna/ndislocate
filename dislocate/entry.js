@@ -24,16 +24,29 @@ var auth = require('./auth');
 var interfaces = require('./interfaces');
 
 exports.run = function() {
+  var called_stop = false;
   var rv = config.init();
 
   if (!rv) {
     return;
   }
 
+  ps.sub(ps.STATE_STOP, function() {
+    called_stop = true;
+  }, true);
+
+  ps.sub(ps.STATE_EXIT, function() {
+    if (called_stop == false) {
+      ps.pub(ps.STATE_STOP);
+      called_stop = true;
+    }
+  }, true);
+
   ps.sub(ps.CONFIG_DONE, function() {
     process.addListener('SIGINT', function () {
-      interfaces.stop();
-      services.stop();
+      log.debug("Caught SIGINT, exiting....");
+      ps.pub(ps.STATE_EXIT, {'why': 'signal', 'value': "SIGINT"});
+      process.exit();
     });
     services.start();
     interfaces.start();
@@ -41,5 +54,5 @@ exports.run = function() {
     services.register('test.sshd', {'type': 'static', 'address': '127.0.0.1', 'port': 22});
     services.register('test.webservers.mine', {'type': 'http', 'address': '127.0.0.1', 'port': 80});
     services.register('test.webservers.mine', {'type': 'http', 'address': '127.0.0.1', 'port': 8080});
-  });
+  }, true);
 };
