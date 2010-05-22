@@ -15,6 +15,7 @@
  * limitations under the License.
  */
 
+var ps = require('./pubsub')
 var interfaces = {
   'http': require('./interfaces/http')
 };
@@ -29,7 +30,10 @@ exports.start = function()
 		  running.push(mod);
 		}
   }
-  
+
+  ps.sub(ps.STATE_STOP, function() {
+    exports.stop();
+  })
 };
  
 exports.stop = function()
