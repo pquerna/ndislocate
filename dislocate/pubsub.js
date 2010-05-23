@@ -52,7 +52,7 @@ exports.pub = function(path, data)
 		var arr = pending[path];
 		pending[path] = arr.filter(function(i) {
 			i.cb(data);
-		  if (i.once == true) {
+		  if (i.once === true) {
 		    return false;
 		  }
 		  return true;
