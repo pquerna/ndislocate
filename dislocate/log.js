@@ -40,9 +40,9 @@ var loglevel_strs = []
 var loglevel = loglevels.debug;
 
 function logit (level, inargs) {
-	if (level >= loglevel) {
-	  sys.log(loglevel_strs[level]+ ": "+ Array.apply({}, inargs).join(" "));
-	}
+  if (level <= loglevel) {
+    sys.log(loglevel_strs[level]+ ": "+ Array.apply({}, inargs).join(" "));
+  }
 }
 
 exports.set_loglevel = function(level) {
@@ -53,9 +53,11 @@ exports.set_loglevel = function(level) {
   for (var attrname in loglevels) {
 		if (loglevels.hasOwnProperty(attrname)) {
       loglevel_strs[loglevels[attrname]] = attrname;
-			exports[attrname] = function () {
-			  return logit(loglevels[attrname], arguments);
-			};
+      exports[attrname] = (function (level) {
+        return function () {
+          return logit(level, arguments);
+          }
+      })(loglevels[attrname]);
 		}
   }
 })();
