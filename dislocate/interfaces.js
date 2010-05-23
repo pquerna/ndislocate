@@ -23,7 +23,7 @@
  * No implementations are in this file, just management of them.
  */
 
-var ps = require('./pubsub')
+var ps = require('./pubsub');
 var interfaces = {
   'http': require('./interfaces/http')
 };
@@ -41,7 +41,7 @@ exports.start = function()
 
   ps.sub(ps.STATE_STOP, function() {
     exports.stop();
-  })
+  });
 };
  
 exports.stop = function()
