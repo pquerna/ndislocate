@@ -26,11 +26,11 @@
  */
 
 var log = require('../log');
-var config = require('../config')
+var config = require('../config');
 var nr = require('../../extern/node-router');
 var templates = require("../templates");
 var generic = require('./generic');
-var sys = require('sys')
+var sys = require('sys');
 var server = null;
 
 function renderResponse(res, name, context)
@@ -56,8 +56,8 @@ function renderJSON(res, context)
 
 exports.start = function()
 {
-  var c = config.get()
-  server = nr.getServer()
+  var c = config.get();
+  server = nr.getServer();
 
   server.get("/", function (req, res, match) {
     return renderResponse(res, 'index', {});
@@ -69,7 +69,7 @@ exports.start = function()
   });
 
   server.put("/d/service", function (req, res, body) {
-    log.info(sys.inspect(body))
+    log.info(sys.inspect(body));
     res.writeHead(200, {'Content-Type': 'text/plain; charset=utf-8'});
     res.end("done!");
   }, "json");
