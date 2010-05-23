@@ -36,7 +36,7 @@ var loglevels = {
 	'debug': 5
 };
 
-var loglevel_strs = []
+var loglevel_strs = [];
 var loglevel = loglevels.debug;
 
 function logit (level, inargs) {
@@ -56,7 +56,7 @@ exports.set_loglevel = function(level) {
       exports[attrname] = (function (level) {
         return function () {
           return logit(level, arguments);
-          }
+          };
       })(loglevels[attrname]);
 		}
   }
