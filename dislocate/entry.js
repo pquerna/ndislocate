@@ -43,7 +43,7 @@ exports.run = function() {
   }, true);
 
   ps.sub(ps.STATE_EXIT, function() {
-    if (called_stop == false) {
+    if (called_stop === false) {
       ps.pub(ps.STATE_STOP);
       called_stop = true;
     }
