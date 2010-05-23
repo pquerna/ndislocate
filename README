@@ -5,6 +5,12 @@ Dislocate aims to eliminate the need to configure 'where' a service is
 available on a network, and enable auto discovery of new services, and high 
 performance location of these services by clients.
 
+Dislocate is a combination of what monitoring, DNS and load balancers are meant
+to do -- but maintaining those services on a large scale distributed system
+is a significant toll on sysadmins.  Dislocate aims to reduce the amount of
+work that sysadmins need to do to maintain properly scaling architectures on
+distributed, disperse and dynamic networks.
+
 Clients on the localhost ask Dislocate for a service, via either HTTP or a file
 on disk.  Dislocate provides information about both the service, and the machine
 hosting it, so that the clients can make load balancing decisions, like
