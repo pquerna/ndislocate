@@ -27,9 +27,11 @@ var ps = require('./pubsub');
 var services = require('./services');
 var auth = require('./auth');
 var interfaces = require('./interfaces');
+var version = require('./version');
 
 exports.run = function() {
   var called_stop = false;
+  log.info(version.toString());
   var rv = config.init();
 
   if (!rv) {
