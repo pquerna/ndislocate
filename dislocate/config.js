@@ -31,6 +31,8 @@ var config = {
   'port': 49700,
   'address': '0.0.0.0',
   'secret': null,
+  /* TODO: pick a better default / prefix directory */
+  'state_directory': '/var/tmp/dislocate',
   'authentication_format': {
     'algorithm': 'sha256',
     'encoding': 'base64'
