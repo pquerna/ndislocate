@@ -24,7 +24,7 @@
 
 var DISLOCATE_VERSION_MAJOR = 0;
 var DISLOCATE_VERSION_MINOR = 1;
-var DISLOCATE_VERSION_PATCH = 0
+var DISLOCATE_VERSION_PATCH = 0;
 
 /* change this on release tags */
 var DISLCOATE_IS_DEV = true;
@@ -42,9 +42,9 @@ exports.toString = function()
 {
   dstr = '-dev';
 
-  if (DISLCOATE_IS_DEV == false) {
+  if (DISLCOATE_IS_DEV === false) {
     dstr = '-release';
   }
 
   return 'dislcoate-'+  DISLOCATE_VERSION_MAJOR +'.'+ DISLOCATE_VERSION_MINOR +'.'+ DISLOCATE_VERSION_PATCH +''+dstr;
-}
+};
