@@ -2,7 +2,29 @@ Dislocate - A distributed service locator
 ------
 
 Dislocate aims to eliminate the need to configure 'where' a service is 
-available on a network, and enable autodiscovery of new services, and high 
+available on a network, and enable auto discovery of new services, and high 
 performance location of these services by clients.
 
-(this is a meandering at using node.js as the method of building the service)
+Clients on the localhost ask Dislocate for a service, via either HTTP or a file
+on disk.  Dislocate provides information about both the service, and the machine
+hosting it, so that the clients can make load balancing decisions, like
+using the least loaded slave SQL server.
+
+Dislocate itself bootstraps based upon a few seed nodes, and then forms a
+peer to peer network over TCP with other Dislocate nodes.  Communication
+between each node is authenticated by a shared secret.
+
+Services register themselves with their local Dislcoate instance on startup, and 
+then Dislocate will advertise them to other peers.  The service can register
+how Dislocate should see if its still alive, including TCP health checks
+or other custom functions.
+
+Status
+------
+Pre-Alpha.  Lots of work to do, I've been trying to hack down the TODO file
+whenever I get a chance.
+
+I welcome help:
+  IRC: pquerna on Freenode (#bloglines or other channels). 
+  E-Mail: <pquerna apache.org>
+
