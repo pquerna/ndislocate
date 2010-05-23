@@ -23,7 +23,7 @@ var Template = require("../extern/json-template").Template;
 var sys = require('sys');
 var fs = require('fs');
 var path = require('path');
-var utils = require("./utils")
+var utils = require("./utils");
 var template_dir = null;
 
 function load(name, cb)
@@ -43,7 +43,7 @@ function load(name, cb)
 
 exports.render = function(name, ctx, cb)
 {
-  default_vars = {}
+  default_vars = {};
   ctx = utils.merge(ctx, default_vars);
   load(name, function(err, tpl) {
     if (err) {
