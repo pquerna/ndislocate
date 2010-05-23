@@ -15,6 +15,11 @@
  * limitations under the License.
  */
 
+/**
+ * Configuration subsytem, providing a set of defaults, and merging of a configuration 
+ * JSON file.
+ */
+
 var fs = require('fs');
 var sys = require('sys');
 var log = require('./log');

@@ -16,6 +16,10 @@
  * limitations under the License.
  */
 
+/**
+ * Wrapper around dislocate entry point.
+ */
+
 var dislocate = require('./dislocate/entry');
 
 dislocate.run();

@@ -15,12 +15,10 @@
  * limitations under the License.
  */
 
-var log = require('./log');
-var utils = require('./utils');
-var ps = require('./pubsub');
-
 /**
- * Hierachical list of objects.
+ * Manages the state of services.
+ *
+ * Dislocate is built around a hierachical list of objects.
  *
  * Each object has a set of metadata.
  *
@@ -31,6 +29,12 @@ var ps = require('./pubsub');
  * lets clients subscribe to a part of the tree.
  *
  **/
+
+ var log = require('./log');
+ var utils = require('./utils');
+ var ps = require('./pubsub');
+
+
 var services = {
   '^': {
     'dislocate': {

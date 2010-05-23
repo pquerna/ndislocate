@@ -15,6 +15,12 @@
  * limitations under the License.
  */
 
+
+/**
+ * Logging subsytem, providing log filtering and a simple set of log message
+ * types.
+ */
+
 var sys = require("sys");
 
 /**

@@ -15,6 +15,11 @@
  * limitations under the License.
  */
 
+/**
+ * Provides a HMAC authentcation of a message, using the configured secret,
+ * and authentication formats.  Currently defaults to a SHA256 HAMC formated
+ * in base64.
+ */
 
 var crypto = require('crypto');
 var config = require('./config');

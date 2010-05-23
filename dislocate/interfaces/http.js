@@ -15,6 +15,16 @@
  * limitations under the License.
  */
 
+
+/**
+ * HTTP Interface to Dislocate.
+ *
+ * Provides read and write access to the state of the dislocate node.
+ *
+ * Only requests from 127.0.0.1 or peers with the correct secret are
+ * allowed to modify any settings.
+ */
+
 var log = require('../log');
 var config = require('../config')
 var nr = require('../../extern/node-router');

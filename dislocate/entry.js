@@ -15,6 +15,11 @@
  * limitations under the License.
  */
 
+/**
+ * This module provides a top level entry point and provides flow control to 
+ * startup, run, and shutdown the dislocate service.
+ */
+
 var sys = require("sys");
 var log = require("./log");
 var config = require("./config");

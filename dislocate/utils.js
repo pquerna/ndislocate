@@ -15,6 +15,10 @@
  * limitations under the License.
  */
 
+/**
+ * Short utility functions that otherwise wouldn't have a home.
+ */
+
 /* 
 * very simple object merging
 * TODO: import mixin from jquery / dojo for real objects

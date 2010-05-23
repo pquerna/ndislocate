@@ -15,6 +15,10 @@
  * limitations under the License.
  */
 
+/**
+ * Provides JSON based templates for use by other modules.
+ */
+
 var Template = require("../extern/json-template").Template;
 var sys = require('sys');
 var fs = require('fs');

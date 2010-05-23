@@ -15,6 +15,14 @@
  * limitations under the License.
  */
 
+/**
+ * Manages the external interfaces used to communicate with dislocate.
+ *
+ * This includes the http server and local json file storage.
+ *
+ * No implementations are in this file, just management of them.
+ */
+
 var ps = require('./pubsub')
 var interfaces = {
   'http': require('./interfaces/http')
