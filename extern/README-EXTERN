@@ -9,4 +9,8 @@ json-template 761f60ca03e (December 5, 2009)
   http://github.com/andychu/json-template/
   License: Apache License 2.0
   Library used to render templates with variables.
-  
+
+json-schema f5a14181aa1 (April 21, 2010)
+  http://github.com/kriszyp/commonjs-utils/raw/master/lib/
+  License: MIT
+  Library used to validate input JSON objects.
