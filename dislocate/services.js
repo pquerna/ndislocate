@@ -79,14 +79,13 @@ exports.start = function()
   runchecks_timer = setTimeout(runchecks, checkup_interval);
   ps.sub(ps.STATE_STOP, function() {
     exports.stop();
-  })
-}
+  });
+};
 
 exports.stop = function()
 {
   clearTimeout(runchecks_timer);
-  delete runchecks_timer;
-}
+};
 
 exports.register = function(name, metadata) {
   var last = preptree(name);
@@ -104,5 +103,5 @@ exports.find = function(name) {
 exports.all = function()
 {
   var r = {};
-  return utils.merge(services, r)
-}
+  return utils.merge(services, r);
+};

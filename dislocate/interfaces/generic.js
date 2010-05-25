@@ -27,4 +27,4 @@ exports.list = function()
 {
   var rv = {'services': services.all()};
   return rv;
-}
+};
