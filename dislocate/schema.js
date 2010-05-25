@@ -20,6 +20,8 @@
  */
 
 var jsch = require('../extern/json-schema');
+var log = require('./log');
+var sys = require('sys');
 
 var schemas = {
   'service': {
@@ -35,6 +37,6 @@ var schemas = {
 exports.validate = function(name, inst)
 {
   /* TODO: provide better message on errors ?*/
-  return jsch.validate(inst, schemas[name]).valid;
+  return jsch.validate(inst, schemas[name]);
 };
 

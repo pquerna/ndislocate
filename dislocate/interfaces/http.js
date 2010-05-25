@@ -30,6 +30,7 @@ var config = require('../config');
 var nr = require('../../extern/node-router');
 var templates = require("../templates");
 var generic = require('./generic');
+var schema = require('../schema');
 var sys = require('sys');
 var server = null;
 
@@ -81,15 +82,30 @@ function checkAuth(req, res, success, failure)
     }
   }
 
-  if (success === undefined) {
-    success = function() {
-      shortResponse(res, 200, '');
-    }
-  }
-
   /* TODO: HMAC auth support */
   if (req.connection.remoteAddress != "127.0.0.1") {
     return failure("must be from localhost");
+  }
+
+  return success();
+}
+
+function checkBody(req, res, object_name, object_to_check, success, failure)
+{
+  if (failure === undefined) {
+    failure = function(reason) {
+      shortResponse(res, 400, reason + '\n');
+    }
+  }
+
+  var v = schema.validate(object_name, object_to_check);
+  if (!v.valid) {
+    var msg = "";
+    for (var i = 0; i < v.errors.length; i++) {
+      msg += v.errors[i].property +": "+ v.errors[i].message + "\n"; 
+    }
+    failure('Invalid JSON Object: '+ msg);
+    return;
   }
 
   return success();
@@ -111,8 +127,10 @@ exports.start = function()
 
   server.put("/d/service", function (req, res, body) {
     checkAuth(req, res, function() {
-//      generic.register(body);
-      return renderSuccess(res);
+        checkBody(req, res, 'service', body, function(){
+          //      generic.register(body);
+          return renderSuccess(res);
+        })
     });
   }, "json");
 
