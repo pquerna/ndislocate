@@ -1,5 +1,7 @@
 - http server
-  - service registration
+  - service registration (semi done, validation side is done)
+  - Need to spec out API design soonish
+    - JSON-Schema auto-generated docs helpful?
 
 - services heartbeating/checkup (see if tcp port is alive, modules for this)
   - static / ttl
@@ -13,10 +15,11 @@
 
 - test cases / testing framework
 
-- design network protocol
+- design peer to peer network protocol
 	- http (?)
 	- sha512 HMAC on data
 	- think about SSL crap / hate CAs / etc
+
 - think about gossip protocol more
 	- do we need it initially?
 	- network partitions
@@ -35,7 +38,8 @@
 - client clients:
   - node.js
   - python
-    - Djnago 1.2 example for database routing.
+    - Djnago 1.2 example for database routing:
+      <http://github.com/jbalogh/django-multidb-router>
     - Cassandra Clusters
   - php
   - Java (?) (ck/esper needs this)
