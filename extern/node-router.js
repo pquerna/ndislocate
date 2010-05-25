@@ -40,6 +40,16 @@ function notFound(req, res, message) {
   res.end();
 }
 
+function badRequest(req, res, message) {
+  message = (message || "Bad Request\n") + "";
+  res.writeHead(400, {
+    "Content-Type": "text/plain",
+    "Content-Length": message.length
+  });
+  res.write(message);
+  res.end();
+}
+
 // Modifies req and res to call logger with a log line on each res.end
 // Think of it as "middleware"
 function logify(req, res, logger) {
@@ -224,7 +234,13 @@ exports.getServer = function getServer(logger) {
               });
               req.addListener('end', function () {
                 if (route.format === 'json') {
-                  body = JSON.parse(unescape(body));
+                  try {
+                    body = JSON.parse(unescape(body));
+                  }
+                  catch (err) {
+                    badRequest(req, res, "JSON.parse failed: "+err);
+                    return;
+                  }
                 }
                 match.push(body);
                 route.handler.apply(null, match);
