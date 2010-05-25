@@ -33,25 +33,66 @@ var generic = require('./generic');
 var sys = require('sys');
 var server = null;
 
+function shortResponse(res, status, message)
+{
+  message = message + "";
+  res.writeHead(status, {
+    "Content-Type": "text/plain; charset=utf-8",
+    "Content-Length": message.length
+  });
+  res.write(message);
+  res.end();
+}
+
+
 function renderResponse(res, name, context)
 {
   templates.render(name, context,
     function (err, result) {
       if (err) {
-        res.writeHead(500, {'Content-Type': 'text/plain; charset=utf-8'});
-        res.end("Exception rendering template "+ name +": "+ err);
+        shortResponse(res, 500, "Exception rendering template "+ name +": "+ err);
         return;
       }
-      res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
-      res.end(result);
+      shortResponse(res, 200, result);
     });
 }
 
 function renderJSON(res, context)
 {
   data = JSON.stringify(context);
-  res.writeHead(200, {'Content-Type': 'application/json; charset=utf-8'});
+  res.writeHead(200, {
+    'Content-Type': 'application/json; charset=utf-8',
+    "Content-Length": data.length
+    });
   res.end(data);
+}
+
+function renderSuccess(res)
+{
+  /* TODO: make this a consistent JSON */
+  shortResponse(res, 200, "great success!\n");
+}
+
+function checkAuth(req, res, success, failure)
+{
+  if (failure === undefined) {
+    failure = function(reason) {
+      shortResponse(res, 401, reason + '\n');
+    }
+  }
+
+  if (success === undefined) {
+    success = function() {
+      shortResponse(res, 200, '');
+    }
+  }
+
+  /* TODO: HMAC auth support */
+  if (req.connection.remoteAddress != "127.0.0.1") {
+    return failure("must be from localhost");
+  }
+
+  return success();
 }
 
 exports.start = function()
@@ -69,13 +110,14 @@ exports.start = function()
   });
 
   server.put("/d/service", function (req, res, body) {
-    log.info(sys.inspect(body));
-    res.writeHead(200, {'Content-Type': 'text/plain; charset=utf-8'});
-    res.end("done!");
+    checkAuth(req, res, function() {
+//      generic.register(body);
+      return renderSuccess(res);
+    });
   }, "json");
 
   log.info("Starting HTTP server on", c.port);
-  server.listen(c.port);
+  server.listen(c.port, "0.0.0.0");
 };
 
 exports.stop = function()
