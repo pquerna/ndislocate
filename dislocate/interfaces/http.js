@@ -79,7 +79,7 @@ function checkAuth(req, res, success, failure)
   if (failure === undefined) {
     failure = function(reason) {
       shortResponse(res, 401, reason + '\n');
-    }
+    };
   }
 
   /* TODO: HMAC auth support */
@@ -95,7 +95,7 @@ function checkBody(req, res, object_name, object_to_check, success, failure)
   if (failure === undefined) {
     failure = function(reason) {
       shortResponse(res, 400, reason + '\n');
-    }
+    };
   }
 
   var v = schema.validate(object_name, object_to_check);
@@ -130,7 +130,7 @@ exports.start = function()
         checkBody(req, res, 'service', body, function(){
           //      generic.register(body);
           return renderSuccess(res);
-        })
+        });
     });
   }, "json");
 

@@ -21,7 +21,7 @@
  */
 
 var log = require('../log');
-var services = require('../services')
+var services = require('../services');
 
 exports.list = function()
 {
