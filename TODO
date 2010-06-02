@@ -1,3 +1,5 @@
+just do it:
+
 - http server
   - service registration (semi done, validation side is done)
   - Need to spec out API design soonish
@@ -9,11 +11,32 @@
   - custom every X seconds
     - thrift alive
     - http & body match
+    - databases (mysql, pgsql)
+    - nosql (cassandra, redis, mongo)
+    - http & https
+    - ajp (?)
+    - amqp
 
 - on disk services json file (atomic replacement)
 - on disk state storage for internal use
 
+- client clients:
+  - node.js
+  - python
+    - Djnago 1.2 example for database routing:
+      <http://github.com/jbalogh/django-multidb-router>
+    - Cassandra Clusters
+  - php
+  - Java (?) (ck/esper needs this)
+
+other:
+
+- documentation!
+
 - test cases / testing framework
+  - maybe just assert's for now?
+
+design:
 
 - design peer to peer network protocol
 	- http (?)
@@ -26,20 +49,3 @@
 	- partial tree updates
 		- how do you update efficiently without transmitting the entire tree. (tree diffs between timestamps?) (there have to be some academic papers about this part)
 
-- documentation!
-
-- services clients:
- - databases (mysql, pgsql)
- - nosql (cassandra, redis, mongo)
- - http & https
- - ajp (?)
- - amqp
-
-- client clients:
-  - node.js
-  - python
-    - Djnago 1.2 example for database routing:
-      <http://github.com/jbalogh/django-multidb-router>
-    - Cassandra Clusters
-  - php
-  - Java (?) (ck/esper needs this)

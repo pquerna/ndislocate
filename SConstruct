@@ -52,7 +52,7 @@ Export("env")
 source = SConscript("dislocate/SConscript")
 
 jslint = [env.Command(str(x)+".jslint", x, ["jslint $SOURCE || exit 0"]) for x in source]
-env.AlwaysBuild(jslint)
+#env.AlwaysBuild(jslint)
 
 Alias('jslint', jslint)
 
