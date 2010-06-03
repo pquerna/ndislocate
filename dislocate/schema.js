@@ -27,9 +27,10 @@ var schemas = {
   'service': {
     type:"object",
     properties:{
-       type: {type:"string"},
-       address: {type:"string"},
-       port: {type:'number'}
+      name: {tyoe: 'string'},
+      type: {type:"string"},
+      address: {type:"string"},
+      port: {type:'number'}
     }
   }
 };
