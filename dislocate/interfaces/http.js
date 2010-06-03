@@ -31,20 +31,32 @@ var nr = require('../../extern/node-router');
 var templates = require("../templates");
 var generic = require('./generic');
 var schema = require('../schema');
+var auth = require('../auth');
 var sys = require('sys');
 var server = null;
+
+function addResponseAuth(res)
+{
+  res.writeAll = function (code, headers, body) {
+    if (headers["Date"] == undefined) {
+      /* TODO: not correct */
+      headers["Date"] = (new Date()).toUTCString();
+    }
+    headers['X-Dislocate-Signature'] = auth.generateFromResponse(code, headers, body);
+    res.writeHead(code, headers);
+    res.write(body);
+    res.end();
+  }
+}
 
 function shortResponse(res, status, message)
 {
   message = message + "";
-  res.writeHead(status, {
+  res.writeAll(status, {
     "Content-Type": "text/plain; charset=utf-8",
     "Content-Length": message.length
-  });
-  res.write(message);
-  res.end();
+  }, message);
 }
-
 
 function renderResponse(res, name, context)
 {
@@ -61,11 +73,10 @@ function renderResponse(res, name, context)
 function renderJSON(res, context)
 {
   data = JSON.stringify(context);
-  res.writeHead(200, {
+  res.writeAll(200, {
     'Content-Type': 'application/json; charset=utf-8',
     "Content-Length": data.length
-    });
-  res.end(data);
+    }, data);
 }
 
 function renderSuccess(res)
@@ -74,20 +85,39 @@ function renderSuccess(res)
   shortResponse(res, 200, "great success!\n");
 }
 
-function checkAuth(req, res, success, failure)
+function checkAuth(req, res, body, success, failure)
 {
+  var success = false;
+  addResponseAuth(res);
+
   if (failure === undefined) {
     failure = function(reason) {
       shortResponse(res, 401, reason + '\n');
     };
   }
 
-  /* TODO: HMAC auth support */
-  if (req.connection.remoteAddress != "127.0.0.1") {
-    return failure("must be from localhost");
+  var proposed = req.headers["x-dislocate-signature"];
+  if (proposed !== undefined) {
+    var good = auth.generateFromRequest(req, body);
+
+    if (good.err !== false) {
+      log.info('sending failure')
+      return failure("request failed to authenticate: "+ good.err);
+    }
+
+    if (auth.validate(good.hmac, proposed) === true) {
+      return success();
+    }
+
+    return failure("request failed to authenticate");
   }
 
-  return success();
+  /* TODO: this is just wrong for IPb6 enabled machines */
+  if (req.connection.remoteAddress == "127.0.0.1") {
+    return success();
+  }
+
+  return failure("must be from localhost");
 }
 
 function checkBody(req, res, object_name, object_to_check, success, failure)
@@ -98,6 +128,7 @@ function checkBody(req, res, object_name, object_to_check, success, failure)
     };
   }
 
+  /* TODO: Figure out how much this hurts performance */
   var v = schema.validate(object_name, object_to_check);
   if (!v.valid) {
     var msg = "";
@@ -126,10 +157,15 @@ exports.start = function()
   });
 
   server.put("/d/service", function (req, res, body) {
-    checkAuth(req, res, function() {
+    checkAuth(req, res, body, function() {
         checkBody(req, res, 'service', body, function(){
-          //      generic.register(body);
-          return renderSuccess(res);
+          var rv = generic.register(body)
+          if (rv === true) {
+            return renderSuccess(res);
+          }
+          else {
+            return shortResponse(res, 500, rv + '\n');
+          }
         });
     });
   }, "json");
