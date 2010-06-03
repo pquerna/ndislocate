@@ -22,12 +22,17 @@
  */
 
 var crypto = require('crypto');
+var log = require('./log');
 var config = require('./config');
 
 exports.validate = function(input, hmac)
 {
   var correct = exports.generate(input);
+  return exports.validateRaw(correct, hmac);
+};
 
+exports.validateRaw = function(correct, hmac)
+{
   if (correct.length != hmac.length) {
     return false;
   }
@@ -53,3 +58,43 @@ exports.generate = function(input)
   h.update(input);
   return h.digest(c.authentication_format.encoding);
 };
+
+exports.generateFromRequest = function(req, body)
+{
+  /**
+   * TODO: Add other HTTP headers
+   * TODO: talk over this scheme with someone else
+   *
+   * Generates HMAC of the following:
+   *  HTTP Method
+   *  URL of the request
+   *  HTTP Date Header
+   *  Entire Request Body
+   */
+
+  var rv = {'err': false, 'hmac': null};
+  var inputs = [req.method];
+  inputs.push(req.url);
+
+  var date = req.headers["date"];
+  if (date === undefined) {
+    rv.err = 'Date http header must be sent';
+    return rv;
+  }
+  inputs.push(date);
+  inputs.push(body);
+
+  var input = inputs.join("");
+  rv.hmac = exports.generate(input);
+  return rv;
+};
+
+exports.generateFromResponse = function(res, code, headers, body)
+{
+  var inputs = [code];
+  inputs.push(headers['Date']);
+  inputs.push(body);
+  var input = inputs.join("");
+  rv.hmac = exports.generate(input);
+  return rv;
+}
