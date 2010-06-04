@@ -76,7 +76,7 @@ exports.generateFromRequest = function(req, body)
   var inputs = [req.method];
   inputs.push(req.url);
 
-  var date = req.headers["date"];
+  var date = req.headers.date;
   if (date === undefined) {
     rv.err = 'Date http header must be sent';
     return rv;
@@ -91,10 +91,11 @@ exports.generateFromRequest = function(req, body)
 
 exports.generateFromResponse = function(res, code, headers, body)
 {
-  var inputs = [code];
-  inputs.push(headers['Date']);
+  var rv = {'err': false, 'hmac': null};
+  var inputs = [""+code];
+  inputs.push(headers.Date);
   inputs.push(body);
   var input = inputs.join("");
   rv.hmac = exports.generate(input);
   return rv;
-}
+};
