@@ -106,7 +106,7 @@ function checkAuth(req, res, body, success, failure)
       return failure("request failed to authenticate: "+ good.err);
     }
 
-    if (auth.validate(good.hmac, proposed) === true) {
+    if (auth.validateRaw(good.hmac, proposed) === true) {
       return success();
     }
 
