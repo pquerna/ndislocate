@@ -17,6 +17,7 @@
 
 src = [ 'auth.js',
         'config.js',
+        'client.js',
         'entry.js',
         'health.js',
         'interfaces.js',
