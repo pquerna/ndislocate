@@ -22,7 +22,7 @@
  */
 
 var sys = require("sys");
-
+var stacktrace = require('../extern/stacktrace');
 /**
  * TODO: format strings
  */
@@ -47,6 +47,10 @@ function logit (level, inargs) {
 
 exports.set_loglevel = function(level) {
 	loglevel = level;
+};
+
+exports.trace = function() {
+  return stacktrace.trace();
 };
 
 (function() {

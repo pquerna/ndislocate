@@ -259,3 +259,5 @@ printStackTrace.implementation.prototype = {
         return '(?)';
     }
 };
+
+exports.trace = printStackTrace;
