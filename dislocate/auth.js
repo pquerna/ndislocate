@@ -76,12 +76,17 @@ exports.generateFromRequest = function(req, body)
   var inputs = [req.method];
   inputs.push(req.url);
 
-  var date = req.headers.date;
-  if (date === undefined) {
+  var d = req.headers.date;
+  if (d === undefined) {
+    d = req.headers.Date;
+  }
+
+  if (d === undefined) {
     rv.err = 'Date http header must be sent';
     return rv;
   }
-  inputs.push(date);
+
+  inputs.push(d);
   inputs.push(body);
 
   var input = inputs.join("");
