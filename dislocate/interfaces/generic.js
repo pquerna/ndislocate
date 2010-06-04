@@ -28,3 +28,8 @@ exports.list = function()
   var rv = {'services': services.all()};
   return rv;
 };
+
+exports.register = function(obj)
+{
+  services.register(obj.name, obj);
+};
