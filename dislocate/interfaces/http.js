@@ -38,15 +38,16 @@ var server = null;
 function addResponseAuth(res)
 {
   res.writeAll = function (code, headers, body) {
-    if (headers["Date"] == undefined) {
+    if (headers.Date === undefined) {
       /* TODO: not correct */
-      headers["Date"] = (new Date()).toUTCString();
+      headers.Date = (new Date()).toUTCString();
     }
-    headers['X-Dislocate-Signature'] = auth.generateFromResponse(code, headers, body);
+    var sig = auth.generateFromResponse(code, headers, body);
+    headers['X-Dislocate-Signature'] = sig.hmac;
     res.writeHead(code, headers);
     res.write(body);
     res.end();
-  }
+  };
 }
 
 function shortResponse(res, status, message)
@@ -87,7 +88,6 @@ function renderSuccess(res)
 
 function checkAuth(req, res, body, success, failure)
 {
-  var success = false;
   addResponseAuth(res);
 
   if (failure === undefined) {
@@ -101,7 +101,7 @@ function checkAuth(req, res, body, success, failure)
     var good = auth.generateFromRequest(req, body);
 
     if (good.err !== false) {
-      log.info('sending failure')
+      log.info('sending failure');
       return failure("request failed to authenticate: "+ good.err);
     }
 
@@ -159,7 +159,7 @@ exports.start = function()
   server.put("/d/service", function (req, res, body) {
     checkAuth(req, res, body, function() {
         checkBody(req, res, 'service', body, function(){
-          var rv = generic.register(body)
+          var rv = generic.register(body);
           if (rv === true) {
             return renderSuccess(res);
           }
