@@ -42,7 +42,7 @@ function addResponseAuth(res)
       /* TODO: not correct */
       headers.Date = (new Date()).toUTCString();
     }
-    var sig = auth.generateFromResponse(code, headers, body);
+    var sig = auth.generateFromResponse(res, code, headers, body);
     headers['X-Dislocate-Signature'] = sig.hmac;
     res.writeHead(code, headers);
     res.write(body);
