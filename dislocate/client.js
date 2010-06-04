@@ -26,10 +26,27 @@ var log = require('./log');
 exports.request = function(peer, method, path, cb, body)
 {
   var h = http.createClient(peer.port, peer.host);
-  var headers = {'Host': peer.host, 'Transfer-Encoding': 'chunked'};
+  var preq = {
+              'method': method,
+              'url': path,
+              'headers': {'Host': peer.host,
+                          'Transfer-Encoding': 'chunked'}
+              };
+
+  if (preq.headers.Date === undefined) {
+    preq.headers.Date = (new Date()).toUTCString();
+  }
 
   /* TODO: auth header here */
-  var req = h.request(method, path, headers);
+  var sig = auth.generateFromRequest(preq, body);
+
+  if (sig.err !== false) {
+    throw sig.err;
+  }
+
+  preq.headers['X-Dislocate-Signature'] = sig.hmac;
+
+  var req = h.request(method, path, preq.headers);
 
   req.addListener('response', function (res) {
     var buf = "";
