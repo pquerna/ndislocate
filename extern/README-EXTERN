@@ -14,3 +14,8 @@ json-schema f5a14181aa1 (April 21, 2010)
   http://github.com/kriszyp/commonjs-utils/raw/master/lib/
   License: MIT
   Library used to validate input JSON objects.
+
+stacktrace  fe9d84729c5 (May 29, 2010)
+  http://github.com/emwendelin/javascript-stacktrace
+  License: BSD
+  Utility function to make a stack trace. Slightly modified to use CommonJS style exports.
