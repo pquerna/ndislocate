@@ -29,6 +29,10 @@ just do it:
   - php
   - Java (?) (ck/esper needs this)
 
+- dislocate console
+ - Base on REPLServer
+ - status, peers, local services, all services, globs, subscribe, disable, etc
+
 other:
 
 - documentation!
