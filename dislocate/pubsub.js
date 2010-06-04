@@ -38,7 +38,7 @@ exports.CONFIG_DONE = "dislocate.config.done";
 exports.STATE_START ='dislocate.state.start';
 exports.STATE_STOP ='dislocate.state.stop';
 exports.STATE_EXIT ='dislocate.state.exit';
-
+exports.LOCAL_SERVICE_REGISTER = "dislocate.local.service.register";
 
 
 exports.pub = function(path, data)
