@@ -98,7 +98,8 @@ function checkAuth(req, res, body, success, failure)
 
   var proposed = req.headers["x-dislocate-signature"];
   if (proposed !== undefined) {
-    var good = auth.generateFromRequest(req, body);
+    /* TODO: this is bogus. Should NEVER reconvert the body to JSON again. */
+    var good = auth.generateFromRequest(req, JSON.stringify(body));
 
     if (good.err !== false) {
       log.info('sending failure');

@@ -20,6 +20,7 @@ var client = require('../dislocate/client');
 var log = require('../dislocate/log');
 var ps = require('../dislocate/pubsub')
 var config = require('../dislocate/config');
+
 (function() {
 
   config.init();
