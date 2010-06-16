@@ -53,3 +53,4 @@ design:
 	- partial tree updates
 		- how do you update efficiently without transmitting the entire tree. (tree diffs between timestamps?) (there have to be some academic papers about this part)
 
+- Convince Dan
